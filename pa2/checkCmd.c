@@ -25,11 +25,14 @@ Return value : 1 if present, -1 if absent
 int checkCmd(const char * const cmdString, const char * const commands[])
 {
   if (cmdString != NULL && commands != NULL)
-  {
-     for (int i =0; commands[i] != NULL ; i++)
+  { 
+     int i;
+     for (i =0; commands[i] != NULL ; i++)
      {
         if(strncmp(cmdString,commands[i],BUFSIZ)==0)
-          return 1;
+         {
+         printf("%d\n",i);
+         return 1;}
      }
   }
   return -1;
