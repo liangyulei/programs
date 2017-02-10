@@ -18,7 +18,7 @@ int checkCmd(const char * const cmdString,
            const char * const commands[]);
 Description : Checks of similar string from
               cmdString in commands[]
-Return value : 1 if present, -1 if absent
+Return value : Index if present, -1 if absent
 */
 
 
@@ -32,7 +32,7 @@ int checkCmd(const char * const cmdString, const char * const commands[])
         if(strncmp(cmdString,commands[i],BUFSIZ)==0)
          {
          printf("%d\n",i);
-         return 1;}
+         return i;}
      }
   }
   return -1;
