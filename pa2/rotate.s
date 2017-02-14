@@ -1,7 +1,7 @@
-.global shift
+.global rotate
 .section ".text"
 
-shift:
+rotate:
 	save %sp,-96,%sp
 	
 	ld [%i0],%l0	!%l0 = lightBank[0]
@@ -18,47 +18,66 @@ shift:
 	and %l2,0x3F,%l2	!%l2 = counter value
 	
 
-	cmp %l2,%g0		!logic test to jump
-	be endRightShiftLoop	!over loop
+	cmp %l2,%g0	!logic test to skip loop
+	be endRightShiftLoop
 	nop
 
 rightShiftLoop:
 	set 0x00000001,%l3
 	and %l0,%l3,%l3	!%l3 => LSB of lightBank[0]
+	set 0x00000001,%l4
+	and %l1,%l4,%l4	!%l4 => LSB of lightBank[1]
 
 	srl %l0,1,%l0	!shift both banks by 1
-	srl %l1,1,%l1	
+	srl %l1,1,%l1
 
-	cmp %l3,%g0	!check if any "jumping bit"
+	cmp %l4,%g0	!check if rotate value 0 or 1
+	be noRotate
+	nop
+	set 0x80000000,%l4	!rotate value 1
+	or %l4,%l0,%l0
+
+	noRotate:	!rotate value 0
+
+	cmp %l3,%g0	!check if any "jumping" bit
 	be noShift
 	nop
 	set 0x80000000,%l3	!jumping bit present
 	or %l1,%l3,%l1
 
-	noShift:	!jumping bring absent
-		dec %l2	!logic test to repeat loop
-		cmp %l2,%g0
+	noShift:	!jumping bit absent
+		dec %l2
+		cmp %l2,%g0	!logic test to repeat loop
 		bne rightShiftLoop
 		nop
-	endRightShiftLoop:	!loop ends
+	endRightShiftLoop:	!end loop
 		ba end
 		nop
 	
 positiveCount:
-	mov %i1,%l2	
+	mov %i1,%l2
 	nop
 	and %l2,0x3F,%l2	!%l2 = counter value
 
-	cmp %l2,%g0	!logic test to jump over loop
+	cmp %l2,%g0	!logic test to skip loop body
 	be end
 	nop
 
 leftShiftLoop:
 	set 0x80000000,%l3
-	and %l1,%l3,%l3	!%l3 = MSB of lightBank[0]
+	and %l1,%l3,%l3	!%l3 = MSB of lightBank[1]
+	set 0x80000000,%l4 !%l4 = MSB of lightBank[0]
+	and %l0,%l4,%l4	
 
 	sll %l0,1,%l0	!shift both banks by 1
 	sll %l1,1,%l1
+	
+	cmp %l4,%g0	!check if rotated value is 0
+	be _noRotate	!or 1
+	nop
+	inc %l1		!rotate value 1
+
+	_noRotate:	!rotate value 0
 
 	cmp %l3,%g0	!check if any "jumping" bit
 	be _noShift
@@ -71,10 +90,10 @@ leftShiftLoop:
 		cmp %l2,%g0	!logic test to repeat loop
 		bne leftShiftLoop
 		nop
-		ba end	!loop ends
+		ba end	!end loop
 		nop
 end:
-	st %l0,[%i0]	!store back value to array
+	st %l0,[%i0]	!store back values to array
 	st %l1,[%i0+4]
 	ret	!return and restore
 	restore

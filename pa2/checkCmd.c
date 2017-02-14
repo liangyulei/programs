@@ -31,8 +31,8 @@ int checkCmd(const char * const cmdString, const char * const commands[])
      {
         if(strncmp(cmdString,commands[i],BUFSIZ)==0)
          {
-         printf("%d\n",i);
-         return i;}
+           return i;
+         }
      }
   }
   return -1;
