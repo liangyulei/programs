@@ -9,29 +9,14 @@ Date : 14 Feb 2017
 Sources of Help : Piazza and TAs
 */
 
+#include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
 #include <ctype.h>
 #include "pa2.h"
-
-#define STR_USAGE_MSG "\nUsage : ./pa2 [filename]\n\n"
-#define STR_BAD_CMD   "\nBad command. Type help for list of commands\n\n"
-#define STR_ARGS_REQ  "\nCommand requires argument. Type help to see\n\n"
-#define STR_STRTOLONG_NOTINT "\n%s is not an integer\n\n"
-#define STR_STRTOLONG_CONVERTING "\nConverting %s base \"0\""
-#define STR_EXTRA_ARG "\nExtra argument entered: %s\nType help for more info\n\n"
-#define STR_HELP_MSG  "\nThe available commands are:\n"\
-                      "   set    bank0BitPattern bank1BitPattern\n"\
-                      "   clear  bank0BitPattern bank1BitPattern\n"\
-                      "   toggle bank0BitPattern bank1BitPattern\n"\
-                      "   shift  shiftCount\n"\
-                      "   rotate rotateCount\n"\
-                      "   ripple rippleCount\n"\
-                      "   help\n"\
-                      "   quit\n"
-  
+#include "pa2Strings.h"
 
 /*
 Function name : main()
@@ -64,7 +49,9 @@ int main(int argc,char *argv[])
   //check if too many arguments
   if(argc > MAX_ARGS+1)
   {
-    (void)printf(STR_USAGE_MSG);
+    char cwd[BUFSIZ];
+    (void)getcwd(cwd,sizeof(cwd));
+    (void)printf(STR_USAGE_MSG,cwd);
     return EXIT_FAILURE;
   }
 
@@ -109,14 +96,14 @@ int main(int argc,char *argv[])
 
     if(index==-1)
     {
-      printf(STR_BAD_CMD);
+      (void)printf(STR_BAD_CMD);
       continue;
     }
     
     //help command
     if(strcmp(token,"help")==0)
     {
-      fprintf(stderr,"%s",STR_HELP_MSG);
+      (void)fprintf(stderr,"%s",STR_HELP_MSG);
       continue;
     }
     
@@ -132,7 +119,8 @@ int main(int argc,char *argv[])
     //command argument missing
     if (arg1 == NULL)
     {
-      printf(STR_ARGS_REQ);
+      (void)printf(STR_ARGS_REQ);
+      continue;
     }
     
     //convert argument to int
@@ -143,7 +131,7 @@ int main(int argc,char *argv[])
     //check if argument has any non-digits
     if(isalpha(*endptr))
     {
-      printf(STR_STRTOLONG_NOTINT,arg1);
+      (void)printf(STR_STRTOLONG_NOTINT,arg1);
       continue;
     }
     
@@ -151,7 +139,7 @@ int main(int argc,char *argv[])
     if(errno == ERANGE)
     {
       char buffer[BUFSIZ];
-      (void)snprintf(buffer,BUFSIZ,STR_STRTOLONG_CONVERTING,arg1);
+      (void)snprintf(buffer,BUFSIZ,STR_STRTOLONG_CONVERTING,arg1,0);
       perror(buffer);
       continue;
     }
@@ -164,7 +152,7 @@ int main(int argc,char *argv[])
     {
       if(arg2 == NULL)
       {
-        printf(STR_ARGS_REQ);
+        (void)printf(STR_ARGS_REQ);
         continue;
       }
       
@@ -177,7 +165,7 @@ int main(int argc,char *argv[])
       if(endptr!=NULL)
       if(isalpha(*endptr))
       {
-        printf(STR_STRTOLONG_NOTINT,arg2);
+        (void)printf(STR_STRTOLONG_NOTINT,arg2);
         continue;
       }
       
@@ -185,7 +173,7 @@ int main(int argc,char *argv[])
       if(errno == ERANGE)
       {
         char buffer2[BUFSIZ];
-        (void)snprintf(buffer2,BUFSIZ,STR_STRTOLONG_CONVERTING,arg2);
+        (void)snprintf(buffer2,BUFSIZ,STR_STRTOLONG_CONVERTING,arg2,0);
         perror(buffer2);
         continue;
       }
