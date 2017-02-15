@@ -1,5 +1,31 @@
+/*
+Filename : ripple.s
+Author : Zhi Jia Teoh
+User ID : cs30xjk
+Date : 5/6/2014
+Description : This routine creates a ripple effect on the lightbanks
+	      and print each subsequent rotation
+Sources of help : TA's and Piazza
+*/
+
 .global ripple
 .section ".text"
+
+/*
+Function Name: ripple()
+Function Prototype: void ripple (unsigned int lightBank[],const int rippleCnt);
+Description: Set the array by rotating the ripplecnt, but call
+	     displayLights after every bit rotated to create a ripple
+	     effect
+Parameters: lightBank[] = lightBanks to be used
+	    rippleCnt   = the counter for ripple
+Registers used:
+%l0 = lightBank[0]
+%l1 = lightBank[1]
+%l2 = rippleCnt / loop counter
+%l3 = used for bitwise operations
+%g0 = for 0 digit comparison
+*/
 
 ripple:
 	save %sp,-96,%sp

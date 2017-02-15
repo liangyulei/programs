@@ -1,5 +1,32 @@
+/*
+Filename : rotate.s
+Author : Zhi Jia Teoh
+User ID : cs30xjk
+Date : 14 Feb 2017
+Description : Rotate each lightBank element by the rotation count
+Sources of help : Piazza and TA's
+*/
+
 .global rotate
 .section ".text"
+
+/*
+Funtion name : rotate()
+Function Prototyope : void rotate(unsigned int lightBank[]
+		      , const int rotateCnt);
+Description: Rotate each lightBank by the rotation count
+Parameters: lightBank[] = lightBanks to be rotated
+	    rotateCnt = rotation counter
+Registers:
+%i0 = lightBank[] parameter
+%i1 = rotateCnt parameter
+%l0 = store lightBank[0]
+%l1 = store lightBank[1]
+%l2 = store rotateCnt
+%l3 = for getting MSB/LSB across
+%l4 = rotate bit for MSB/LSB
+%g0 = comparison for 0
+*/
 
 rotate:
 	save %sp,-96,%sp
@@ -8,11 +35,11 @@ rotate:
 	ld [%i0+4],%l1	!%l1 = lightBank[1]
 	
 	set 0x80000000,%l2
-	andcc %i1,%l2,%l2	!check MSB of shiftCnt
+	andcc %i1,%l2,%l2	!check MSB of rotateCnt
 	bz positiveCount
 	nop
 	
-	mov %i1,%l2		!get shiftCnt arg
+	mov %i1,%l2		!get rotateCnt arg
 	nop
 	neg %l2			!2's complement
 	and %l2,0x3F,%l2	!%l2 = counter value

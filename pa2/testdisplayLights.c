@@ -1,10 +1,10 @@
 /*
  * Filename: testdisplayLights.c
- * Author: TODO
- * Userid: TODO
+ * Author: ZHI JIA TEOH
+ * Userid: cs30xjk
  * Description: Unit test program to test the function displayLights().
- * Date: TODO
- * Sources of Help: TODO
+ * Date: 14 feb 2017
+ * Sources of Help: Piazza and TAs
  */ 
 
 #include <stdlib.h>
@@ -38,9 +38,8 @@ void testdisplayLights() {
   char * expected;
 
 
-  /* Test 1 */
+  /* Test 1  - No bits*/
   fprintf( stderr, "\nRUNNING TEST 1!\n" );
-   
   lightBank[0] = 0x0;
   lightBank[1] = 0x0;
   expected = "---- ---- ---- ---- ---- ---- ---- ---- "      /* lightBank[0] */
@@ -48,27 +47,46 @@ void testdisplayLights() {
   runTest( lightBank, expected, "Test: 0x0, 0x0" );
   
 
-  /* Test 2 */
+  /* Test 2 - Single bits*/
   fprintf( stderr, "\nRUNNING TEST 2!\n" );
-  
   lightBank[0] = 0x11111111;
   lightBank[1] = 0x88888888;
   expected = "---* ---* ---* ---* ---* ---* ---* ---* "
              "*--- *--- *--- *--- *--- *--- *--- *--- \n";
   runTest( lightBank, expected, "Test: 0x11111111, 0x88888888" );
 
+  // Test 3 - Full bits and Single bits
+  fprintf( stderr, "\nRUNNING TEST 3!\n" );
+  lightBank[0] = 0xf0f0f0f0;
+  lightBank[1] = 0x01010101;
+  expected = "**** ---- **** ---- **** ---- **** ---- "
+             "---- ---* ---- ---* ---- ---* ---- ---* \n";
+  runTest( lightBank, expected, "Test: 0xf0f0f0f0, 0x01010101" );
 
-    fprintf( stderr, "\nRUNNING TEST 3!\n" );
+  // Test 4 - All bits
+  fprintf(stderr, "\nRUNNING TEST 4!\n");
+  lightBank[0] = 0xFFFFFFFF;
+  lightBank[1] = 0xFFFFFFFF;
+  expected = "**** **** **** **** **** **** **** **** "
+             "**** **** **** **** **** **** **** **** \n";
+  runTest(lightBank,expected, "Test: 0xFFFFFFFF, 0xFFFFFFFF");
+
+  //Test 5 - Empty lightBank[0]
+  fprintf(stderr, "\nRUNNING TEST 5!\n");
+  lightBank[0] = 0;
+  lightBank[1] = 0xF0F0F0F0;
+  expected = "---- ---- ---- ---- ---- ---- ---- ---- "
+             "**** ---- **** ---- **** ---- **** ---- \n";
+  runTest(lightBank,expected, "TEST: 0x00000000, 0xF0F0F0F0");
+
+  //Test 6 - Empty lightBank[1]
+  fprintf(stderr, "\nRUNNING TEST 6!\n");
+  lightBank[0] = 0xFFFF0000;
+  lightBank[1] = 0x00000000;
+  expected = "**** **** **** **** ---- ---- ---- ---- "
+             "---- ---- ---- ---- ---- ---- ---- ---- \n";
+  runTest(lightBank,expected, "TEST: 0xFFFF0000, 0xFFFF0000");
   
-    lightBank[0] = 0xf0f0f0f0;
-    lightBank[1] = 0x01010101;
-    expected = "**** ---- **** ---- **** ---- **** ---- "
-               "---- ---* ---- ---* ---- ---* ---- ---* \n";
-    runTest( lightBank, expected, "Test: 0xf0f0f0f0, 0x01010101" );
-
-
-  
-  /* TODO: YOU MUST WRITE MORE TEST CASES FOR FULL POINTS! */
 }
 
 
