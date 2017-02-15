@@ -1,0 +1,110 @@
+/*
+Filename : README
+Author : Zhi Jia Teoh
+User id : cs30xjk
+Date : 14 Feb 2017
+Sources of help : TAs and Piazza
+*/
+
+
+Description
+-----------
+This programs can be run with either zero argument or one argument
+which is the filename. If a file is present, the commands will be
+read from there. Else, the program will prompt user for their 
+commands. The program creates a lightBank, which is an array of unsigned int
+of two elements. It will then prompt user commands that will modify
+the lightBanks, or display its output. Command set can be used to
+set the lightBanks, command toggle can be used to switch on and off
+of the bits depending on the pattern, command clear is used to clear
+off bits depending on pattern, command rotate rotates the bits, command
+shift shifts the bit, command help displays the options and command
+quit will exit the program. 
+
+
+How to compile
+--------------
+Get to the directory containing the source files. The Makefile
+must be present in the same directory. Type "make" without the
+" " to compile.
+
+
+How to run
+----------
+Type the path of the filename with zero arg or filename arg
+
+<IF IN SAME DIRECTORY>
+Example : ./pa2
+
+
+Normal Output
+-------------
+Normal output is printed to stdout. 
+
+Example:
+
+[cs30xjk@ieng9]:pa2:555$ ./pa2
+---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
+> 
+
+
+Abnormal output
+---------------
+Abnormal output is printed to stderr.
+
+Example:
+
+[cs30xjk@ieng9]:pa2:570$ ./pa2 file file2
+
+	Usage: /home/solaris/ieng9/cs30x/cs30xjk/pa2 [filename]
+
+
+Testing
+-------
+The program was tested using the publicly available pa2test to compare
+the input and output. Both programs showed no difference in their output 
+by using diff command to compare the output files of both programs. Also, the
+program is tested with different kind of options such as command that
+needs multiple arguments, or command that requires one argument, or commands
+that require only digits and no alphabets and commands that do not exists.
+Unit testing is also done on specific routines.
+
+
+Question
+--------
+1. What is the command to rename a file?
+mv
+
+2. What is the command to copy a file?
+cp
+
+3. What happens when you select text and then middle click in the
+vim editor when in insert/input mode?
+It'll copy and paste the text selected.
+
+4. What is a .vimrc file, and how do you create/edit them?
+.vimrc file contains the optional runtime configuration setting for 
+vim initialization. To create or edit, type the command
+"vim .vimrc" without the " ".
+
+5. What is the command to cut a full line of text to the clipboard in vim?
+How do you paste it?
+Press "esc" to enter the normal mode, press "V" to select the full line.
+Next, press "X" to cut the line. Finally, press "P" to paste the line.
+
+6. How do you search for a string in vim?
+Command "/string" to search.
+
+7. How do you turn on line numbers in vim?
+Command "set num" to on the line numbers in vim.
+
+8. How can you quickly (with a single Linux command) change directory to 
+a directory named fubar that is in your home (login) directory?
+Ccommand "cd ~/fubar" will change to directory fubar.
+
+9. How do you change the permissions on a file?
+Command "chmod g+r file" to enable read permission on group.
+
+10. Why are professional engineers expected to act with integrity?
+To maintain the highest standard possible, and also because it is
+in accordance to the moral and ethics of any civilized society.
