@@ -1,0 +1,126 @@
+NAME : ZHI JIA TEOH
+
+PROGRAM NAME : pamt1
+
+PROGRAM DESCRIPTION : This program initializes an array with numbers
+using pre-defined variables from pamt1.h under various operations. It
+then will run four other functions, in particular a function that
+returns the squared sum, min and max, and another that returns the 
+square-root sum, min and max. The other two functions are similar
+except they implement multi-threading with OpenMP.
+
+HOW TO COMPILE : Use the make command with all the program files
+in the same directory.
+
+USAGE : ./pamt1 <number between 12 to 4294967295 (inclusive)>
+
+NORMAL OUTPUT : 
+
+[cs30xjk@ieng6-202]:pamt1:179$ ./pamt1 1000
+Using array size = 1000
+Initializing array with values using sequential initData()
+  [be patient with large values]
+
+Checking that sequential initData produced the values as expected
+Checking the first 12 bytes only
+Should print out the string: "CSE30 Rocks!"
+CSE30 Rocks!
+
+Sequential initData time = 0.000077
+
+Initializing array with same values using parallel initData()
+  [be less patient with large values]
+Num of threads = 8
+
+Checking that parallel initData produced the values as expected
+Checking the first 12 bytes only
+Should print out the string: "CSE30 Rocks!"
+CSE30 Rocks!
+
+Parallel initData time = 0.002171
+
+*** initData Speed-up: 0.035583 ***
+
+Sequential squared sum, min, max [be patient]
+Sequential squaredSumMinMax time = 0.000009
+
+Squared Sum is: 6382931
+Min value is: 32
+Max value is: 115
+Completed in 0.000009 sec
+
+Parallel squared sum, min, max [don't need to be as patient]
+Parallel squaredSumMinMax time = 0.002646
+
+Squared Sum is: 6382931
+Min value is: 32
+Max value is: 115
+Completed in 0.002646 sec
+
+*** squaredSumMinMax Speed-up: 0.003516 ***
+
+Sequential sqrt sum, min, max [be patient]
+Sequential sqrtSumMinMax time = 0.000035
+
+Sqrt Sum is: 8472.371233
+Min value is: 32
+Max value is: 115
+Completed in 0.000035 sec
+
+Parallel sqrt sum, min, max [don't need to be as patient]
+Parallel sqrtSumMinMax time = 0.001876
+
+Sqrt Sum is: 8472.371233
+Min value is: 32
+Max value is: 115
+Completed in 0.001876 sec
+
+*** sqrtSumMinMax Speed-up: 0.018587 ***
+
+NORMAL OUTPUT DESTINATION : stdout
+
+ABNORMAL OUTPUT:
+
+30xjk@ieng6-202]:pamt1:186$ ./pamt1 11
+
+Usage: ./pamt1 array_size
+   array_size  (must be >= 12 and <= 4294967295)
+
+ABNORMAL OUTPUT DESTINATION : stdout
+
+TESTING : 
+
+The program is tested with very small, normal and very large values 
+and compared the results of both sequential and parallel processing.
+Both should have the same values for min, max and sum respectively.
+The speed is also compared and sequential should be slower at 
+very large values, but faster at very small values. A thorough
+check with output is also compared with the given example output.
+
+QUESTIONS:
+
+1)The B240 workstation shows larger speed-up
+
+2)The B420 workstation runs faster (both sequentially and parallel)
+
+3)The B240 workstation runs at 2 threads per core (sharing 2 threads
+of execution on a single physical CPU) while the ieng6 workstation
+only runs at 1 thread per core so it does not share its CPU
+resources with multiple threads.
+
+4)About size 1000 to consistently exceed 1.0 and about size 2000 to 
+consistently exceed 2.0
+
+5)About size 1000 to consistently exceed 1.0 and about size 4000 to
+consistently exceed 2.0
+
+6)About size 50 to consistently exceed 1.0 and about size 200 to
+consistently exceed 2.0
+
+7)Adding OpenMP parallel for the inner loop makes it slower compared
+to not parallelizing the inner loop.
+
+8)It is slower because there are too many threads, slowing
+down the CPU performance.
+
+
