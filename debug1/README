@@ -1,0 +1,82 @@
+AUTHOR : ZHI JIA TEOH
+USER ID : cs30xjk
+---------------------
+
+
+Compilation Error
+-----------------
+
+reverse.s
+Line 10
+Original : .global reverse
+Fixed    : .global reverse
+	   .section ".text"
+Reason :
+Codes should be in ".text" section
+
+
+reverse.s
+Line 73
+Original : mov palStr, %o0
+Fixed	 : set palStr, %o0
+Reason:
+palStr is a label and contains address thus set must be used, not mov
+
+
+Runtime/Functionality Error
+---------------------------
+
+main.c
+Line 42
+Original : char* str=argv[1];
+Fixed    : char* str=argv[i];
+Reason:
+Since we need to loop all the arguments, use i counter instead of
+just 1
+
+reverse.s
+Line 31
+Original : save %sp,(92+4) & -8,%sp
+Fixed    : save %sp,-(92+4) &-8,%sp
+Reason:
+To save registers, the format is "save %sp,-(92+<total bytes>)&-8,%sp
+
+reverse.s
+Line 59
+Original : add %l2,1,%l2
+Fixed 	 : add %l2,-1,%l2
+Reason:
+Since endPtr is supposed to be decremented, it's -1 and not 1
+
+findEnd.s
+Line 24
+Original : "missing save instruction"
+Fixed    : save %sp,-96,%sp
+Reason   : 
+All functions need to save the local stackframe and registers first
+
+findEnd.s
+Line 30
+Original : ld [%i0],%l0
+Fixed    : ldub [%i0],%l0
+Reason : 
+Since the value in the pointer (data type of char) is char
+then we need to use ldub instead of ld
+
+findEnd.s
+Line 41
+Original : ld [%i0],%l0
+Fixed    : ldub [%i0],%l0
+Reason:
+Since the value in the pointer (data type of char) is char
+then we need to use ldub instead of ld
+
+swapChars.s
+Line 44
+Original : ba notSame
+Fixed    : ba notSame
+           nop
+Reason :
+Missing delay slot after function call
+
+
