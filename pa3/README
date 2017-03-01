@@ -1,1 +1,86 @@
+README
+------
+Name : Zhi Jia Teoh (cs30xjk)
 
+
+
+Description
+----------
+This program searches for anagrams that is population struct Anagrams
+connected to a Hashtable database. The program first reads a dictionary
+file (default, but can be provided with different file). The user
+then prompts the program on random singular words and the program
+will check whether anagrams are available. Anagrams that are found
+will be printed.
+
+
+
+How to complie
+--------------
+Use 'make' to compile this program.
+
+
+
+How to run
+----------
+Usage: ./pa3 [-f dictFile] [-s tableSize] [-i index] [-h]
+
+
+
+Normal Output
+------------
+[cs30xjk@ieng9]:pa3:507$ ./pa3
+
+Enter a word to search for anagrams [^D to exit]: god
+Anagram(s) are: dog
+
+Enter a word to search for anagrams [^D to exit]: node
+Anagram(s) are: done
+
+
+
+Error output
+------------
+30xjk@ieng9]:pa3:510$ ./pa3 -f nosuchfile
+No such file or directory
+
+        Error opening dictionary file; invalid file.
+
+	Usage: ./pa3 [-f dictFile] [-s tableSize] [-i index] [-h]
+	Try './pa3 -h' for more information.
+
+[cs30xjk@ieng9]:pa3:636$ ./pa3 -s 1000 -i 1000
+
+        index must be within the range of [0 - 999].
+
+	Usage: ./pa3 [-f dictFile] [-s tableSize] [-i index] [-h]
+	Try './pa3 -h' for more information.
+
+[cs30xjk@ieng9]:pa3:639$ ./pa3 -s 1001
+
+        size must be within the range of [1 - 1000].
+
+	Usage: ./pa3 [-f dictFile] [-s tableSize] [-i index] [-h]
+	Try './pa3 -h' for more information.
+
+
+
+How to test
+-----------
+Several functions are also unit tested with a unit tester driver. 
+Else, the general output of the program is tested thoroughly by
+comparing the output that was provided, and also by comparing with
+the output through a publicly available tester program. The program
+is run with varied arguments, to force any possible errors.
+
+
+
+Questions
+---------
+1)Knowing that integrity is what upholds society and that
+  work without integrity is fruitless and worthless.
+2)Running with tableSize=1000 is much faster than tableSize=1 because
+with tableSize 1, there is only one element of HashTable, and the rest
+of the struct anagrams are all pointed to the same element in
+HashTable. loadDict.c takes the longest because it has to loop over
+a lot of times in the anagram array due to collision

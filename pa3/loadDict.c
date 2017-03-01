@@ -51,7 +51,6 @@ int loadDict(char *filename, struct HashTable * table)
     //failure
     return -1;
   }
-  
   //read dict line by line
   while(fgets(buffer,BUFSIZ,inFile))
   {
@@ -111,7 +110,6 @@ int loadDict(char *filename, struct HashTable * table)
     else
     {
       int matchExist = 0;
-
       //search array for matching word
       for(int i =0;i*sizeof(struct Anagram) < tableEntry->numAnagrams;i++)
       {

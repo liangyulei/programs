@@ -1,5 +1,4 @@
-/*
- * Filename : main.c
+/* Filname : main.c
  * Author : Zhi Jia Teoh
  * Userid : cs30xjk
  * Description : main to parse user argument and perform the required task
@@ -93,6 +92,48 @@ int main( int argc, char * argv[] )
      return EXIT_SUCCESS;
    }
 
+//-f flag not entered
+  if (flag_f == 0 )
+    dictNameArg = DEFAULT_DICT_FILENAME;
+
+//-s flag entered
+  if (flag_s != 0 )
+  {
+    char * end = NULL;
+    tableSize = strtoul( tableSizeArg, &end, 0 );
+
+    //check for valid input size
+    int checkInBound = isInBounds(MIN_SIZE,MAX_SIZE-1,tableSize);
+    if (checkInBound == 0)
+    {
+      (void)fprintf(stderr,STR_ERR_RANGE,STR_ERR_SIZE,
+      MIN_SIZE, MAX_SIZE );
+      usage(stderr,USAGE_SHORT,argv[MIN_INDEX]);
+      return EXIT_FAILURE;
+    }
+
+
+    if (*end != '\0')
+    { 
+       (void)fprintf(stderr,STR_ERR_NOTINT,tableSizeArg);
+       usage(stderr, USAGE_SHORT, argv[MIN_INDEX] );
+       return EXIT_FAILURE;
+    }
+
+    if (errno != 0)
+    {
+      char  buffer[BUFSIZ];
+      (void)snprintf(buffer, BUFSIZ, STR_ERR_CONVERTING
+      ,tableSizeArg, 10);
+      perror(buffer);
+      usage(stderr,USAGE_SHORT,argv[MIN_INDEX]);
+      return EXIT_FAILURE;
+    }
+  }
+  else 
+  {
+    tableSize = DEFAULT_SIZE;
+  }
 
  //if -i entered
    if (flag_i != 0 )
@@ -109,57 +150,21 @@ int main( int argc, char * argv[] )
      }
      if (*end != '\0' )
      {
-       (void)fprintf(stderr,STR_ERR_NOTINT,tableIndex);
+       (void)fprintf(stderr,STR_ERR_NOTINT,tableIndexArg);
        usage(stderr,USAGE_SHORT,argv[MIN_INDEX]);
        return EXIT_FAILURE;
      }
-   }
- //check if index valid
-   int checkInBounds = isInBounds(0,tableSize-1,tableIndex);
-   if (checkInBounds == 0 )
-   {
-     (void)fprintf( stderr, STR_ERR_RANGE, STR_ERR_INDEX, 0,tableSize - 1 );
-     usage( stderr, USAGE_SHORT, argv[MIN_INDEX] );
-     return EXIT_FAILURE;
+     //check if index valid
+         int checkInBounds = isInBounds(0,tableSize-1,tableIndex);
+         if (checkInBounds == 0 )
+         {
+           (void)fprintf( stderr, STR_ERR_RANGE, STR_ERR_INDEX,
+           0,tableSize -1 );
+           usage( stderr, USAGE_SHORT, argv[MIN_INDEX] );
+           return EXIT_FAILURE;
+         }
    }
    
-//-f flag not entered
-  if (flag_f == 0 )
-    dictNameArg = DEFAULT_DICT_FILENAME;
-  
-  if (flag_s == 0 )
-    tableSize = DEFAULT_SIZE;
-  else
-  {
-    char * end = NULL;
-    tableSize = strtoul( tableSizeArg, &end, 0 );
-
-    if (*end != '\0')
-    { 
-       (void)fprintf(stderr,STR_ERR_NOTINT,tableSizeArg);
-       usage(stderr, USAGE_SHORT, argv[MIN_INDEX] );
-       return EXIT_FAILURE;
-    }
-
-    if (errno != 0)
-    {
-      char  buffer[BUFSIZ];
-      (void)snprintf(buffer, BUFSIZ, STR_ERR_CONVERTING ,tableSizeArg, 10);
-      perror(buffer);
-      usage(stderr,USAGE_SHORT,argv[MIN_INDEX]);
-      return EXIT_FAILURE;
-    }
-  }
-//check for valid input size
-  int checkInBound = isInBounds(MIN_SIZE,MAX_SIZE,tableSize);
-  if (checkInBound == 0)
-  {
-    (void)fprintf(stderr,STR_ERR_RANGE,STR_ERR_SIZE,
-    MIN_SIZE, MAX_SIZE );
-    usage(stderr,USAGE_SHORT,argv[MIN_INDEX]);
-    return EXIT_FAILURE;
-  }
-
 //build HashTable
   struct HashTable table;
   table.size = tableSize;
@@ -190,7 +195,8 @@ for (int i = 0; i < table.size; i++ )
     struct TableEntry * tableEntry = &(table.entryPtr[i]);
     if (tableEntry != NULL)
     {
-      for (int j=0;j<tableEntry->numAnagrams/sizeof(struct Anagram);j++)
+      int length = tableEntry->numAnagrams/sizeof(struct Anagram);
+      for (int j=0;j<length;j++)
       {
         struct Anagram * tempAnagram = &(tableEntry -> anagramPtr[j] );
         if (tempAnagram != 0 )
@@ -212,4 +218,3 @@ for (int i = 0; i < table.size; i++ )
   //return succeed value
   return EXIT_SUCCESS;
 }
-

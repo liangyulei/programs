@@ -103,16 +103,3 @@ int findAnagrams(struct HashTable const * table)
     (void)printf("\n");
   return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
