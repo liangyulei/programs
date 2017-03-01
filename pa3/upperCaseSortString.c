@@ -26,7 +26,6 @@ void upperCaseSortString(char const *src, int n, char *dest)
   dest[n-1]='\0';
 
   //convert to upperCase
-  //get str length in i for qsort
   int i = 0;
   while(i<n)
   {
@@ -39,5 +38,5 @@ void upperCaseSortString(char const *src, int n, char *dest)
   }
   
   //sort
-  qsort(dest,i,sizeof(char),charCompare);
+  qsort(dest,strlen(src),sizeof(char),charCompare);
 }

@@ -1,10 +1,10 @@
 /*
  * Filename: testcharCompare.c
- * Author: TODO
- * Userid: TODO
+ * Author: Zhi Jia Teoh
+ * Userid: cs20xjk
  * Description: Unit test program to test the function charCompare().
- * Date: TODO
- * Sources of Help: TODO
+ * Date: 22 Feb 2017
+ * Sources of Help: piazza and TAs
  */ 
 
 #include "test.h"    /* For TEST() macro and stdio.h */
@@ -30,15 +30,6 @@ void testcharCompare()
   lhs = 'm';
   rhs = 'j';
   TEST( charCompare( &lhs, &rhs ) == 1 );
-
-
-  /*
-   * TODO: YOU MUST WRITE MORE TEST CASES FOR FULL POINTS!
-   * Some ideas are:
-   *  - first character is smaller
-   *  - first character is the same as second character
-   *  - etc.
-   */
 
   lhs = 'l';
   rhs = 'l';
